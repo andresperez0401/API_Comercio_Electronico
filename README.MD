@@ -46,7 +46,7 @@ src/
 |--------|--------------------------|------------------------|
 | POST   | `/usuarios/registro`     | Registro de usuario    |
 | POST   | `/usuarios/login`        | Generación de JWT      |
-| DELETE | `/:idUsuario`            | Eliminar usuario       | 
+| DELETE | `/usuarios/:idUsuario`   | Eliminar usuario       | 
 | GET    | `/usuarios`              | Listar todos usuarios  | 
 
 ### Productos
