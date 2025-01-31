@@ -18,6 +18,7 @@ export class ApellidoUsuario{
         return this.apellido === apellido.getValue();
     }
 
+    //Valida que el apellido solo contenga letras
     isValid(): boolean {
         if (!/[^a-zA-Z]/.test(this.apellido) && this.apellido.length > 0) {
           return true;

@@ -7,9 +7,7 @@ export class BuscarProductosService implements IAplicationService<string, Iterab
 
     private repositorioProducto: RepositorioProducto;
 
-    constructor (
-        repositorioProducto: RepositorioProducto){
-        
+    constructor (repositorioProducto: RepositorioProducto){
         this.repositorioProducto = repositorioProducto;
     }
 

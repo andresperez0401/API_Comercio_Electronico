@@ -21,6 +21,7 @@ export class ProductoController {
         this.configurarRutas();
     }
 
+    // Configuración de las rutas para producto
     private configurarRutas(): void {
         this.router.post("/crear", this.crearProducto);
         this.router.put("/editar/:id", this.editarProducto);
@@ -29,16 +30,23 @@ export class ProductoController {
         this.router.get("/:id", this.buscarProductoPorId);
     }
 
-    // Función que llama al CrearProductoService
+
+//Función que se encarga de crear un producto a través de un endpoint
+//----------------------------------------------------------------------------------------------------------------------------------------------
+
     private crearProducto = async (req: Request, res: Response): Promise<void> => {
         try {
+
+            //Solicita los campos en el body del json
             const { nombre, descripcion, precio, disponibilidad } = req.body;
             
+            //valida que esten presente estos campos
             if (!nombre || !descripcion || !precio || !disponibilidad) {
                 res.status(400).json({ error: "Todos los campos son requeridos" });
                 return;
             }
 
+            //Llama al servicio de CrearProductoService
             const resultado = await this.crearService.execute(
                 new CrearProductoDTO(nombre, descripcion, precio, disponibilidad)
             );
@@ -52,17 +60,29 @@ export class ProductoController {
         }
     }
 
-    // Función que llama al EditarProductoService
+//Finaliza la función de crear producto
+//--------------------------------------------------------------------------------------------------------------------------------------------
+
+
+//Función que se encarga de editar un producto a través de un endpoint
+//--------------------------------------------------------------------------------------------------------------------------------------------
+
     private editarProducto = async (req: Request, res: Response): Promise<void> => {
         try {
+
+            //Obtiene el id del producto por la ruta
             const { id } = req.params;
+
+            //Obtiene lso campos por el body del request
             const { nombre, descripcion, precio, disponibilidad } = req.body;
             
+            //Valida que los campos esten presentes
             if (!id || !nombre || !descripcion || !precio || !disponibilidad) {
                 res.status(400).json({ error: "Todos los campos son requeridos" });
                 return;
             }
 
+            //Llama al servicio de EditarProductoService
             const resultado = await this.editarService.execute(
                 new EditarProductoDTO(id, nombre, descripcion, precio, disponibilidad)
             );
@@ -76,16 +96,26 @@ export class ProductoController {
         }
     }
 
-    // Función que llama al EliminarProductoService
+//Finaliza la función de editar producto
+//--------------------------------------------------------------------------------------------------------------------------------------------
+
+
+//Función que se encarga de eliminar un producto a través de un endpoint
+//-------------------------------------------------------------------------------------------------------------------------------------------
+   
     private eliminarProducto = async (req: Request, res: Response): Promise<void> => {
         try {
+
+            //Obtiene el id del producto por la ruta
             const { id } = req.params;
             
+            //Valida que el id este presente
             if (!id) {
                 res.status(400).json({ error: "ID requerido" });
                 return;
             }
 
+            //Llama al servicio de EliminarProductoService
             const resultado = await this.eliminarService.execute(id);
 
             resultado.isLeft()
@@ -97,9 +127,17 @@ export class ProductoController {
         }
     }
 
-    // Función que llama al BuscarProductosService
+//Finaliza la función de eliminar producto
+//-------------------------------------------------------------------------------------------------------------------------------------------
+
+
+//Función que se encarga de buscar todos los productos a través de un endpoint
+//--------------------------------------------------------------------------------------------------------------------------------
+
     private buscarProductos = async (req: Request, res: Response): Promise<void> => {
         try {
+
+            //Llama al servicio de BuscarProductosService
             const resultado = await this.buscarProductosService.execute();
 
             resultado.isLeft()
@@ -110,16 +148,26 @@ export class ProductoController {
         }    
     }
 
-    // Función que llama al BuscarProductoPorIdService
+//Finaliza la función de buscar productos
+//--------------------------------------------------------------------------------------------------------------------------------
+
+
+//Función que se encarga de buscar un producto por id a través de un endpoint
+//--------------------------------------------------------------------------------------------------------------------------------
+
     private buscarProductoPorId = async (req: Request, res: Response): Promise<void> => {
         try {
+
+            //Obtiene el id del producto por la ruta
             const { id } = req.params;
             
+            //Valida que el id este presente
             if (!id) {
                 res.status(400).json({ error: "ID requerido" });
                 return;
             }
 
+            //Llama al servicio de BuscarProductoPorIdService
             const resultado = await this.buscarProductoPorIdService.execute(id);
 
             resultado.isLeft()
@@ -129,6 +177,9 @@ export class ProductoController {
             res.status(500).json({ error: "Error interno del servidor" });
         }
     }
+
+//Finaliza la función de buscar producto por id
+//--------------------------------------------------------------------------------------------------------------------------------
 
     public obtenerRouter(): Router {
         return this.router;

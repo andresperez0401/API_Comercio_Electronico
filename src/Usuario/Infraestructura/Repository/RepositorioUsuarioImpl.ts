@@ -15,9 +15,13 @@ export class RepositorioUsuarioImp implements RepositorioUsuario {
         this.prisma = new PrismaClient();
     }
 
-    // Crear Usuario
+// Implementación del método para crear un usuario
+// ------------------------------------------------------------------------------------------------------------------------------------------------
+
     async crearUsuario(usuario: Usuario): Promise<Either<Usuario, Error>> {
         try {
+
+            // Crear usuario en la base de datos
             const usuarioDB = await this.prisma.usuario.create({
                 data: {
                     correo: usuario.getCorreo(),
@@ -43,18 +47,27 @@ export class RepositorioUsuarioImp implements RepositorioUsuario {
         }
     }
 
-    // Implementación del método para loguear un usuario
+// Finaliza la funcion de crear Usuario
+// ------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+// Implementación del método para loguear un usuario
+// ------------------------------------------------------------------------------------------------------------------------------------------------
+
     async loguearUsuario(dto: LoguearUsuarioDTO): Promise<Either<Usuario, Error>> {
+        
         try {
-            // Buscar usuario en la base de datos por email
+
+            // Buscar usuario en la base de datos por correo
             const usuario = await this.prisma.usuario.findUnique({
                 where: {
                     correo: dto.correo,
                 },
             });
 
+            //Si no encuentra el correo retorna el error
             if (!usuario) {
-                 return Either.makeRight(new Error("Usuario no encontrado"));
+                 return Either.makeRight(new Error("Correo no encontrado en la base de datos"));
             }
 
             // Validar la contraseña
@@ -77,7 +90,13 @@ export class RepositorioUsuarioImp implements RepositorioUsuario {
         }
     }
 
-    // Eliminar Usuario
+//Finaliza la función de loguear usuario
+//------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+// Implementación del método para eliminar un usuario por id
+// ------------------------------------------------------------------------------------------------------------------------------------------------
+
     async eliminarUsuario(id: string): Promise<Either<string, Error>> {
         try {
             await this.prisma.usuario.delete({
@@ -89,7 +108,13 @@ export class RepositorioUsuarioImp implements RepositorioUsuario {
         }
     }
 
-    //Obtener todos los usuarios
+//Finaliza la función de eliminar usuario
+//------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+//Implementación del método para buscar todos los usuarios
+//------------------------------------------------------------------------------------------------------------------------------------------------
+
     async buscarUsuarios(): Promise<Either<Iterable<Usuario>, Error>> {
         
         try {
@@ -109,4 +134,8 @@ export class RepositorioUsuarioImp implements RepositorioUsuario {
         }
     
     }
+
+//Finaliza la función de buscar usuarios
+//------------------------------------------------------------------------------------------------------------------------------------------------
+
 }

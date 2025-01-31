@@ -9,11 +9,9 @@ export class CrearUsuarioService implements IAplicationService<CrearUsuarioDTO, 
 
     private repositorioUsuario: RepositorioUsuario;
 
-    //Para poder realizar la inyeccion de dependencias por constructor
     constructor(repositorioUsuario: RepositorioUsuario){
         this.repositorioUsuario = repositorioUsuario;
     }
-
 
     async execute(s: CrearUsuarioDTO): Promise<Either<Usuario, Error>> {
         

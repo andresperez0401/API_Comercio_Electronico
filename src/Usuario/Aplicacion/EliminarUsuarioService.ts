@@ -7,11 +7,9 @@ export class EliminarUsuarioService implements IAplicationService<string, string
 
     private repositorioUsuario: RepositorioUsuario;
 
-    //Para poder realizar la inyeccion de dependencias por constructor
     constructor(repositorioUsuario: RepositorioUsuario){
         this.repositorioUsuario = repositorioUsuario;
     }
-
 
     async execute(id: string): Promise<Either<string, Error>> {
         

@@ -10,11 +10,8 @@ export class ClaveUsuario {
     }
   
     isValid(): boolean {
-      if (!/[^a-zA-Z]/.test(this.clave) && this.clave.length > 0) {
-        return true;
-      }
-      return false;
-    }
+      return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(this.clave);
+  }
   
     equals(claveUsuario: ClaveUsuario): boolean {
       return this.clave === claveUsuario.getValue();

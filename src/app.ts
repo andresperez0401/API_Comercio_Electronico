@@ -18,6 +18,14 @@ import { BuscarProductosService } from './Producto/Aplicacion/BuscarProductosSer
 import { BuscarProductoPorIdService } from './Producto/Aplicacion/BuscarProductoPorIdService';
 import { ProductoController } from './Producto/Infraestructura/Controller/ProductoController';
 
+
+//Imports de pedidos
+import { RepositorioPedidoImpl } from './Pedido/Infraestructura/Repository/RepositorioPedidoImpl';
+import { CrearPedidoService } from './Pedido/Aplicacion/CrearPedidoService';
+import { buscarPedidosPorIdUsuarioService } from './Pedido/Aplicacion/BuscarPedidosPorIdUsuarioService';
+import { BuscarPedidosService } from './Pedido/Aplicacion/BuscarPedidosService';
+import { PedidoController } from './Pedido/Infraestructura/Controller/PedidoController';
+
 const app = express();
 app.use(express.json());
 
@@ -42,11 +50,21 @@ const productoController = new ProductoController(
     new BuscarProductoPorIdService(repoProducto)
 );
 
-// Rutas de los endpoints
-app.use('/api/usuarios', usuarioController.obtenerRouter());
-app.use('/api/productos', productoController.obtenerRouter());
 
-// 4. Iniciar servidor
+//Dependencias de Pedido
+const repoPedido = new RepositorioPedidoImpl(prisma);
+const pedidoController = new PedidoController(
+    new CrearPedidoService(repoPedido),
+    new buscarPedidosPorIdUsuarioService(repoPedido),
+    new BuscarPedidosService(repoPedido)
+);
+
+// Rutas de los endpoints
+app.use('/usuarios', usuarioController.obtenerRouter());
+app.use('/productos', productoController.obtenerRouter());
+app.use('/pedidos', pedidoController.obtenerRouter());
+
+// Iniciar el servidor
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Servidor corriendo en http://localhost:${PORT}`);

@@ -7,11 +7,9 @@ export class EliminarProductoService implements IAplicationService<string, strin
 
     private repositorioProducto: RepositorioProducto;
 
-    //Para poder realizar la inyeccion de dependencias por constructor
     constructor(repositorioProducto: RepositorioProducto){
         this.repositorioProducto = repositorioProducto;
     }
-
 
     async execute(id: string): Promise<Either<string, Error>> {
         

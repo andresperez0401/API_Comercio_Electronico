@@ -13,9 +13,14 @@ export class RepositorioProductoImp implements RepositorioProducto {
         this.prisma = new PrismaClient();
     }
 
-    // Crear Producto
+
+//Función que se encarga de crear un producto en la base de datos
+//------------------------------------------------------------------------------------------------------------------------------
+
     async crearProducto(producto: Producto): Promise<Either<Producto, Error>> {
         try {
+
+            //Crea el producto en la base de datos
             const productoDB = await this.prisma.producto.create({
                 data: {
                     nombre: producto.getNombre(),
@@ -26,6 +31,7 @@ export class RepositorioProductoImp implements RepositorioProducto {
                 }
             });
 
+            //Retorna el producto creado si fue exitoso
             return Either.makeLeft(
                 Producto.crearProducto(
                     productoDB.nombre,
@@ -40,8 +46,13 @@ export class RepositorioProductoImp implements RepositorioProducto {
         }
     }
 
+//Finaliza la función de crear producto
+//------------------------------------------------------------------------------------------------------------------------------
 
-    // Eliminar Producto
+
+//Función que se encarga de eliminar un producto de la base de datos
+//------------------------------------------------------------------------------------------------------------------------------
+
     async eliminarProducto(id: string): Promise<Either<string, Error>> {
         try {
             await this.prisma.producto.delete({
@@ -53,7 +64,13 @@ export class RepositorioProductoImp implements RepositorioProducto {
         }
     }
 
-    //Obtener todos los productos
+//Finaliza la función de eliminar producto
+//------------------------------------------------------------------------------------------------------------------------------
+
+
+//Función que se encarga de buscar todos los productos existentes en la base de datos
+//------------------------------------------------------------------------------------------------------------------------------
+
     async buscarProductos(): Promise<Either<Iterable<Producto>, Error>> {
         
         try {
@@ -71,10 +88,15 @@ export class RepositorioProductoImp implements RepositorioProducto {
         } catch (error) {
             return Either.makeRight(new Error("Error al obtener los productos: " + + (error as Error).message));
         }
-    
     }
 
-    //Busca un producto por ID
+//Finaliza la función de buscar productos
+//------------------------------------------------------------------------------------------------------------------------------
+
+
+//Función que se encarga de buscar un producto por ID
+//------------------------------------------------------------------------------------------------------------------------------
+
     async buscarProductoPorId(idProducto: string): Promise<Either<Producto, Error>> {
         try {
             const productoDb = await this.prisma.producto.findUnique({
@@ -82,7 +104,7 @@ export class RepositorioProductoImp implements RepositorioProducto {
             });
     
             if (!productoDb) {
-                return Either.makeRight(new Error("Producto de id: " + idProducto + " no encontrado"));
+                return Either.makeRight(new Error("Producto no encontrado"));
             }
     
             return Either.makeLeft(Producto.crearProducto(
@@ -97,33 +119,41 @@ export class RepositorioProductoImp implements RepositorioProducto {
         }
     }
 
-    //Para actualizar el producto
-    // Repositorio (implementación con Prisma)
-async actualizarProducto(producto: Producto): Promise<Either<string, Error>> {
-    try {
-        const productoExistente = await this.prisma.producto.findUnique({
-            where: { idProducto: producto.getIdProducto() }
-        });
+//Finaliza la función de buscar producto por ID
+//------------------------------------------------------------------------------------------------------------------------------
 
-        if (!productoExistente) {
-            return Either.makeRight(new Error("Producto no encontrado"));
-        }
 
-        await this.prisma.producto.update({
-            where: { idProducto: producto.getIdProducto() },
-            data: {
-                nombre: producto.getNombre(),
-                descripcion: producto.getDescripcion(),
-                precio: producto.getPrecio(),
-                disponibilidad: producto.getDisponibilidad()
+//Función que se encarga de actualizar un producto en la base de datos
+//------------------------------------------------------------------------------------------------------------------------------
+
+    async actualizarProducto(producto: Producto): Promise<Either<string, Error>> {
+        try {
+            const productoExistente = await this.prisma.producto.findUnique({
+                where: { idProducto: producto.getIdProducto() }
+            });
+
+            if (!productoExistente) {
+                return Either.makeRight(new Error("Producto no encontrado"));
             }
-        });
 
-        return Either.makeLeft("Producto actualizado correctamente");
-        
-    } catch (error) {
-        return Either.makeRight(new Error("Error al actualizar el producto: " + (error as Error).message));
+            await this.prisma.producto.update({
+                where: { idProducto: producto.getIdProducto() },
+                data: {
+                    nombre: producto.getNombre(),
+                    descripcion: producto.getDescripcion(),
+                    precio: producto.getPrecio(),
+                    disponibilidad: producto.getDisponibilidad()
+                }
+            });
+
+            return Either.makeLeft("Producto actualizado correctamente");
+            
+        } catch (error) {
+            return Either.makeRight(new Error("Error al actualizar el producto: " + (error as Error).message));
+        }
     }
-}
+
+//Finaliza la función de actualizar producto
+//------------------------------------------------------------------------------------------------------------------------------
 
 }

@@ -7,9 +7,7 @@ export class BuscarUsuariosService implements IAplicationService<string, Iterabl
 
     private repositorioUsuario: RepositorioUsuario;
 
-    constructor (
-        repositorioUsuario: RepositorioUsuario){
-        
+    constructor (repositorioUsuario: RepositorioUsuario){
         this.repositorioUsuario = repositorioUsuario;
     }
 

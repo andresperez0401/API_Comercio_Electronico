@@ -14,17 +14,41 @@ datasource db {
 }
 
 model Usuario {
-  idUsuario  String @id  
-  correo     String @unique                     
+  idUsuario  String   @id  
+  correo     String   @unique                     
   clave      String                             
   nombre     String
   apellido   String
+  pedidos    Pedido[] @relation("UsuarioPedidos")
 }
 
 model Producto {
-  idProducto        String @id  
-  nombre            String @unique                     
+  idProducto        String           @id  
+  nombre            String           @unique                     
   descripcion       String                             
   precio            Float
   disponibilidad    Int
+  detallePedidos    DetallePedido[] @relation("ProductoDetallePedido")
+}
+
+model Pedido {
+  idPedido         String          @id
+  idUsuario        String
+  estado           String
+  fecha            String
+  montoTotal       Float        
+  usuario          Usuario         @relation("UsuarioPedidos", fields: [idUsuario], references: [idUsuario])
+  detalleProductos DetallePedido[] @relation("PedidoDetalleProducto")
+}
+
+model DetallePedido {
+  idPedido   String
+  idProducto String
+  cantidad   Int
+  precio     Float
+  
+  producto   Producto @relation("ProductoDetallePedido", fields: [idProducto], references: [idProducto])
+  pedido     Pedido   @relation("PedidoDetalleProducto", fields: [idPedido], references: [idPedido])
+
+  @@id([idPedido, idProducto])  // Define la clave primaria compuesta
 }

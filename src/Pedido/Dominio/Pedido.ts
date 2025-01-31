@@ -3,49 +3,49 @@ import { IdUsuario } from "../../Usuario/Dominio/IdUsuario";
 import { DetalleProducto } from "./DetalleProducto";
 import { EstadoPedido } from "./EstadoPedido";
 import { Optional } from "../../Utils/Optional";
+import { FechaPedido } from "./FechaPedido";
 
 export class Pedido {
 
-    private idPedido: IdPedido;
+    private idPedido: Optional<IdPedido>;
     private idUsuario: IdUsuario;
-    private fecha: Date;
+    private fecha: FechaPedido;
     private estado: EstadoPedido;
-    private detallePedido: Optional<Array<DetalleProducto>>;
+    private detallePedido: Optional<DetalleProducto[]>;
     private montoTotal!: number;
 
     private constructor(
-        idPedido: IdPedido,
         idUsuario: IdUsuario,
-        fecha: Date,
+        fecha: FechaPedido,
         estado: EstadoPedido,
-        detallePedido: Optional<Array<DetalleProducto>>
+        detallePedido: Optional<DetalleProducto[]>,
+        idPedido: IdPedido
     ){
-        this.idPedido = idPedido;
         this.idUsuario = idUsuario;
         this.fecha = fecha;
         this.estado = estado;
         this.detallePedido = detallePedido;
+        this.idPedido = new Optional<IdPedido>(idPedido);
 
-        if(this.detallePedido.hasvalue()){
+        if(!this.detallePedido.hasvalue()){
             this.montoTotal = this.calcularMontoTotal();
         }
     }
 
     static crearPedido(
         idUsuario: string,
-        fecha: Date,
+        fecha: string,
         estado: EstadoPedido,
-        detallePedido: Array<DetalleProducto>,
-        id?: string
+        detallePedido: Optional<DetalleProducto[]>,
+        idPedido?: string
     ): Pedido{
         return new Pedido(
-            IdPedido.crearIdPedido(id),
             IdUsuario.crearIdUsuario(idUsuario),
-            fecha,
+            FechaPedido.crearFechaPedido(fecha),
             estado,
-            new Optional<Array<DetalleProducto>>(detallePedido)
+            detallePedido,
+            IdPedido.crearIdPedido(idPedido),
         );
-
     }
 
     calcularMontoTotal(): number{
@@ -60,9 +60,27 @@ export class Pedido {
         this.montoTotal = this.calcularMontoTotal();
     }
 
+    getIdPedido(): string{
+        return this.idPedido.getValue().getValue();
+    }
 
+    getIdUsuario(): string{
+        return this.idUsuario.getValue();
+    }
 
+    getFecha(): string{
+        return this.fecha.getValue();
+    }
 
+    getEstado(): string{
+        return this.estado;
+    }
 
+    getDetallePedido(): Optional<Array<DetalleProducto>>{
+        return this.detallePedido;
+    }
 
+    getMontoTotal(): number{
+        return this.montoTotal;
+    }
 }

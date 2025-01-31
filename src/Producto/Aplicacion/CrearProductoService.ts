@@ -9,7 +9,6 @@ export class CrearProductoService implements IAplicationService<CrearProductoDTO
 
     private repositorioProducto: RepositorioProducto;
 
-    //Para poder realizar la inyeccion de dependencias por constructor
     constructor(repositorioProducto: RepositorioProducto){
         this.repositorioProducto = repositorioProducto;
     }
@@ -18,7 +17,7 @@ export class CrearProductoService implements IAplicationService<CrearProductoDTO
         
         const producto = Producto.crearProducto(product.nombre, product.descripcion,
                                                 product.precio, product.disponibilidad);
-        console.log(producto.getIdProducto());
+        
         const resultado = await this.repositorioProducto.crearProducto(producto);
         
         return resultado;

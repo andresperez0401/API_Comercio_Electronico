@@ -8,9 +8,7 @@ export class BuscarProductoPorIdService
 {
   private repositorioProducto: RepositorioProducto;
 
-  constructor(
-    repositorioProducto: RepositorioProducto,
-  ) {
+  constructor(repositorioProducto: RepositorioProducto) {
     this.repositorioProducto = repositorioProducto;
   }
 
