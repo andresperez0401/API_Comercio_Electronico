@@ -4,7 +4,7 @@
 [![Express](https://img.shields.io/badge/Express-4-blue)](https://expressjs.com/)
 [![Prisma](https://img.shields.io/badge/Prisma-5-orange)](https://www.prisma.io/)
 
-API REST para gestión de usuarios, productos y pedidos con autenticación JWT y arquitectura limpia.
+API REST para gestión de usuarios, productos y pedidos con autenticación JWT y arquitectura hexagonal.
 
 ##  Características Principales
 - ✅ Autenticación JWT
@@ -12,6 +12,11 @@ API REST para gestión de usuarios, productos y pedidos con autenticación JWT y
 - ✅ Arquitectura Hexagonal
 - ✅ Integración con PostgreSQL mediante Prisma ORM
 
+
+## Para ejecutar 
+```
+    npm run start
+```
 
 ## 🛠️ Instalación
 
@@ -43,3 +48,30 @@ src/
     ├── Aplicacion
     ├── Infraestructura
 
+
+## 📡 Endpoints 
+
+### Usuarios
+| Método | Endpoint 	            | Función                |
+|--------|--------------------------|------------------------|
+| POST   | `/usuarios/registro`     | Registro de usuario    |
+| POST   | `/usuarios/login`        | Generación de JWT      |
+| DELETE | `/:idUsuario`            | Eliminar usuario       | 
+| GET    | `/usuarios`              | Listar todos usuarios  | 
+
+### Productos
+| Método | Endpoint 	                    | Función                     |
+|--------|----------------------------------|-----------------------------|
+| POST   | `/productos/crear`               | Registro de Producto        |
+| POST   | `/productos/editar/:idProducto`  | Edición de Producto         |
+| DELETE | `/productos/eliminar/:idProducto`| Eliminar Producto           | 
+| GET    | `/productos`                     | Listar todos los productos  | 
+| GET    | `/productos/:idProducto`         | Listar un producto por id   | 
+
+
+### Pedidos
+| Método | Endpoint 	                | Función                       |
+|--------|------------------------------|-------------------------------|
+| POST   | `/pedidos/`                  | Registrar un pedido           |
+| GET    | `/pedidos/`                  | Listar todos los pedidos      |
+| GET    | `/pedidos/usuario/:idUsuario`| Listar pedidos de un usuario  |
