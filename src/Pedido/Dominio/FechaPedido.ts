@@ -1,3 +1,5 @@
+import { Either } from "../../Utils/Either";
+
 export class FechaPedido {
     private fecha: string;
 
@@ -27,16 +29,37 @@ export class FechaPedido {
             parseInt(seconds)
         );
     }
-
-
-    formatDate(date: Date): string {
-        const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, '0');
-        const day = String(date.getDate()).padStart(2, '0');
-        const hours = String(date.getHours()).padStart(2, '0');
-        const minutes = String(date.getMinutes()).padStart(2, '0');
-        const seconds = String(date.getSeconds()).padStart(2, '0');
-        
-        return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-    }
 }
+
+    export function validarFecha(fecha: string): Either<string, Error> {
+        // Expresión regular para validar el formato AAAA-mm-DD HH:mm:ss
+        const regex = /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/;
+        
+        // Verificar si el formato de la fecha coincide con la expresión regular
+        if (!regex.test(fecha)) {
+            return Either.makeRight(new Error('El formato de la fecha debe ser con formato: AAAA-mm-DD HH:mm:ss'));
+        }
+    
+        // Verificar si la fecha es válida
+        const [fechaParte, horaParte] = fecha.split(' ');
+        const [anio, mes, dia] = fechaParte.split('-').map(Number);
+        const [hora, minuto, segundo] = horaParte.split(':').map(Number);
+    
+        // Verificar si la fecha es válida usando Date
+        const fechaValida = new Date(anio, mes - 1, dia, hora, minuto, segundo);
+        if (
+            fechaValida.getFullYear() !== anio || 
+            fechaValida.getMonth() !== mes - 1 || 
+            fechaValida.getDate() !== dia || 
+            fechaValida.getHours() !== hora || 
+            fechaValida.getMinutes() !== minuto || 
+            fechaValida.getSeconds() !== segundo
+        ) {
+            Either.makeRight(new Error('La fecha colocada es inválida'));
+        }
+    
+        return Either.makeLeft(fecha);
+    }
+
+
+   
