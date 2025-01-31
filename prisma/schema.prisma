@@ -20,3 +20,11 @@ model Usuario {
   nombre     String
   apellido   String
 }
+
+model Producto {
+  idProducto        String @id  
+  nombre            String @unique                     
+  descripcion       String                             
+  precio            Float
+  disponibilidad    Int
+}

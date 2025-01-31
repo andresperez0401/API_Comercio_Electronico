@@ -85,7 +85,7 @@ export class RepositorioUsuarioImp implements RepositorioUsuario {
             });
             return Either.makeLeft("Usuario eliminado correctamente");
         } catch (error) {
-            return Either.makeRight(new Error("Error al eliminar usuario: "));
+            return Either.makeRight(new Error("Error al eliminar usuario de id: " + id + " " + (error as Error).message));
         }
     }
 

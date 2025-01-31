@@ -1,6 +1,7 @@
-// En tu archivo principal (app.ts/server.ts)
 import express from 'express';
 import { PrismaClient } from '@prisma/client';
+
+//Imports de productos
 import { RepositorioUsuarioImp } from './Usuario/Infraestructura/Repository/RepositorioUsuarioImpl';
 import { CrearUsuarioService } from './Usuario/Aplicacion/CrearUsuarioService';
 import { LoguearUsuarioService } from './Usuario/Aplicacion/LoguearUsuarioService';
@@ -8,27 +9,42 @@ import { EliminarUsuarioService } from './Usuario/Aplicacion/EliminarUsuarioServ
 import { UsuarioController } from './Usuario/Infraestructura/Controller/UsuarioController';
 import { BuscarUsuariosService } from './Usuario/Aplicacion/BuscarUsuariosService';
 
+//Imports de productos
+import { RepositorioProductoImp } from './Producto/Infraestructura/Repository/RepositorioProductoImpl';
+import { CrearProductoService } from './Producto/Aplicacion/CrearProductoService';
+import { EditarProductoService } from './Producto/Aplicacion/EditarProductoService';
+import { EliminarProductoService } from './Producto/Aplicacion/EliminarProductoService';
+import { BuscarProductosService } from './Producto/Aplicacion/BuscarProductosService';
+import { BuscarProductoPorIdService } from './Producto/Aplicacion/BuscarProductoPorIdService';
+import { ProductoController } from './Producto/Infraestructura/Controller/ProductoController';
+
 const app = express();
-app.use(express.json()); // Para parsear JSON
+app.use(express.json());
 
-// 1. Configurar dependencias
 const prisma = new PrismaClient();
-const repositorio = new RepositorioUsuarioImp(prisma);
-const crearService = new CrearUsuarioService(repositorio);
-const loguearService = new LoguearUsuarioService(repositorio);
-const eliminarService = new EliminarUsuarioService(repositorio);
-const buscarUsuariosService = new BuscarUsuariosService(repositorio);
 
-// 2. Crear controlador
+// Dependencias de Usuario
+const repoUsuario = new RepositorioUsuarioImp(prisma);
 const usuarioController = new UsuarioController(
-    crearService,
-    loguearService,
-    eliminarService,
-    buscarUsuariosService
+    new CrearUsuarioService(repoUsuario),
+    new LoguearUsuarioService(repoUsuario),
+    new EliminarUsuarioService(repoUsuario),
+    new BuscarUsuariosService(repoUsuario)
 );
 
-// 3. Registrar rutas
+//Dependencias de Producto
+const repoProducto = new RepositorioProductoImp(prisma);
+const productoController = new ProductoController(
+    new CrearProductoService(repoProducto),
+    new EditarProductoService(repoProducto),
+    new EliminarProductoService(repoProducto),
+    new BuscarProductosService(repoProducto),
+    new BuscarProductoPorIdService(repoProducto)
+);
+
+// Rutas de los endpoints
 app.use('/api/usuarios', usuarioController.obtenerRouter());
+app.use('/api/productos', productoController.obtenerRouter());
 
 // 4. Iniciar servidor
 const PORT = process.env.PORT || 3000;

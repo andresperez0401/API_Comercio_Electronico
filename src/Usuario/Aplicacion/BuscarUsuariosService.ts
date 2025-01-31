@@ -5,7 +5,7 @@ import { Either } from "../../Utils/Either";
 
 export class BuscarUsuariosService implements IAplicationService<string, Iterable<Usuario>>{
 
-    private readonly repositorioUsuario: RepositorioUsuario;
+    private repositorioUsuario: RepositorioUsuario;
 
     constructor (
         repositorioUsuario: RepositorioUsuario){
