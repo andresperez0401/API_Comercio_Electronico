@@ -12,25 +12,15 @@ API REST para gestión de usuarios, productos y pedidos con autenticación JWT y
 - ✅ Arquitectura Hexagonal
 - ✅ Integración con PostgreSQL mediante Prisma ORM
 
+## Desarrollado por
+
+Este proyecto fue desarrollado por [Andrés Pérez](https://github.com/andresperez0401).
+
 
 ## Para ejecutar 
-```
+```bash
     npm run start
 ```
-
-## 🛠️ Instalación
-
-1. Clonar repositorio:
-```bash
-git clone https://github.com/andresperez0401/API_Comercio_Electronico.git
-cd API_Comercio_Electronico
-```
-
-2. Instalar Dependencias:
-```bash
-npm install
-```
-
 
 # 🏗️ Estructura del Código
 ```
@@ -75,3 +65,29 @@ src/
 | POST   | `/pedidos/`                  | Registrar un pedido           |
 | GET    | `/pedidos/`                  | Listar todos los pedidos      |
 | GET    | `/pedidos/usuario/:idUsuario`| Listar pedidos de un usuario  |
+
+
+## 🛠️ Instalación
+
+1. Clonar repositorio:
+```bash
+git clone https://github.com/andresperez0401/API_Comercio_Electronico.git
+cd API_Comercio_Electronico
+```
+
+2. Instalar Dependencias:
+```bash
+npm install
+```
+
+3. Otros comandos que puedsen servir:
+```bash
+
+npm install express
+
+npm install dotenv
+
+npm install typescript ts-node
+
+npm install prisma @prisma/client
+```
