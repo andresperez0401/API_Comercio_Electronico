@@ -47,7 +47,7 @@ src/
     ├── Dominio
     ├── Aplicacion
     ├── Infraestructura
-
+```
 
 ## 📡 Endpoints 
 
