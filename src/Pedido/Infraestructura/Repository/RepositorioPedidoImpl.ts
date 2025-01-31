@@ -100,7 +100,7 @@ export class RepositorioPedidoImpl implements RepositorioPedido {
             });
 
             //Si no consigue pedidos asociados al usuario, retorna un error.
-            if (!pedidosDb) {
+            if (!pedidosDb || pedidosDb.length === 0) {
                 return Either.makeRight(new Error("El ID de usuario proporcionado, no tiene pedidos asociados."));
             }
 
