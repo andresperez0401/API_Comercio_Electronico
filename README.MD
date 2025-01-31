@@ -16,11 +16,21 @@ API REST para gestión de usuarios, productos y pedidos con autenticación JWT y
 
 Este proyecto fue desarrollado por [Andrés Pérez](https://github.com/andresperez0401).
 
+## 📝 Revisión de la Documentación
+
+Revisa la documentacion que se encuentra en la carpeta ./Documentation, para obtener mas detalles de la API y su uso.
+
 
 ## Para ejecutar 
 ```bash
     npm run start
 ```
+
+## Para crear la base datos en PostgreSQL
+```sql
+    CREATE DATABASE Ecommerce_API;
+```
+
 
 # 🏗️ Estructura del Código
 ```
