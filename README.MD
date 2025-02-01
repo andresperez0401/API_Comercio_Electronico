@@ -1,8 +1,4 @@
-# 🚀 API de Comercio Electrónico
-
-[![Node.js](https://img.shields.io/badge/Node.js-18%2B-green)](https://nodejs.org/)
-[![Express](https://img.shields.io/badge/Express-4-blue)](https://expressjs.com/)
-[![Prisma](https://img.shields.io/badge/Prisma-5-orange)](https://www.prisma.io/)
+# API de Comercio Electrónico
 
 API REST para gestión de usuarios, productos y pedidos con autenticación JWT y arquitectura hexagonal.
 
